@@ -1,0 +1,15 @@
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .qr-code-container {
+    padding: 16px;
+  }
+}
+

@@ -1,0 +1,81 @@
+.host-dashboard-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.host-dashboard-header h1 {
+  color: var(--primary-green);
+  margin-bottom: 8px;
+}
+
+.quiz-status {
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+.host-dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.teams-section,
+.quiz-control-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  margin-bottom: 16px;
+}
+
+.section-header h2 {
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.control-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+}
+
+.control-card h2 {
+  color: var(--primary-green);
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.loading-container,
+.error-card {
+  text-align: center;
+  padding: 40px;
+}
+
+@media (max-width: 1024px) {
+  .host-dashboard-content {
+    grid-template-columns: 1fr;
+  }
+
+  .control-card {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .host-dashboard-header {
+    margin-bottom: 24px;
+  }
+
+  .host-dashboard-content {
+    gap: 16px;
+  }
+
+  .control-card {
+    padding: 16px;
+  }
+}
+

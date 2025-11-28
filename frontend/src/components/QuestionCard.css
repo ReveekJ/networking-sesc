@@ -1,0 +1,40 @@
+.question-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.question-header {
+  margin-bottom: 16px;
+}
+
+.question-number {
+  color: var(--primary-green);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.question-text {
+  color: var(--text-dark);
+  font-size: 24px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .question-card {
+    padding: 16px;
+  }
+
+  .question-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .question-text {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,149 @@
+.quiz-player-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.quiz-player-header h1 {
+  color: var(--primary-green);
+  margin-bottom: 8px;
+}
+
+.loading-container,
+.waiting-card,
+.error-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.waiting-card h2 {
+  color: var(--primary-green);
+  margin-bottom: 16px;
+}
+
+.answer-submitted-card {
+  background-color: #e8f5e9;
+  border: 2px solid var(--primary-green);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.answer-submitted-card p {
+  margin: 0;
+  color: var(--primary-green);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.waiting-text {
+  margin-top: 8px !important;
+  color: var(--text-light) !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+}
+
+.statistics-container {
+  margin-top: 24px;
+}
+
+.statistics-content {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+
+.statistics-title {
+  color: var(--text-dark);
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.statistics-content .total-answers {
+  color: var(--text-light);
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.statistics-item {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option-text {
+  font-weight: 500;
+  color: var(--text-dark);
+  font-size: 16px;
+  flex: 1;
+}
+
+.option-count {
+  color: var(--primary-green);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.statistics-bar-container {
+  width: 100%;
+  height: 32px;
+  background-color: var(--light-gray);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.statistics-bar {
+  height: 100%;
+  position: relative;
+  transition: width 0.3s ease;
+}
+
+.statistics-bar-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .quiz-player-header h1 {
+    font-size: 24px;
+  }
+
+  .answer-submitted-card {
+    padding: 20px;
+  }
+
+  .statistics-item {
+    padding: 16px;
+  }
+
+  .statistics-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .option-count {
+    font-size: 14px;
+  }
+
+  .statistics-bar-container {
+    height: 28px;
+  }
+}
+

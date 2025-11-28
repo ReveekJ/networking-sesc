@@ -1,0 +1,35 @@
+.loading-container,
+.error-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.error-card h2 {
+  color: #f44336;
+  margin-bottom: 16px;
+}
+
+.join-quiz-card {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+}
+
+.join-quiz-card h1 {
+  color: var(--primary-green);
+  margin-bottom: 16px;
+}
+
+.quiz-description {
+  color: var(--text-light);
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .join-quiz-card {
+    padding: 24px;
+  }
+}
+

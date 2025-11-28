@@ -1,0 +1,68 @@
+.team-registration-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.team-registration-header h1 {
+  color: var(--primary-green);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+.team-registration-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-hint {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.participants-section {
+  margin-top: 32px;
+}
+
+.participants-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.participants-header h2 {
+  margin: 0;
+  color: var(--text-dark);
+}
+
+.submit-section {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .team-registration-header {
+    margin-bottom: 24px;
+  }
+
+  .participants-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .participants-header .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,18 @@
+.text-input-answer {
+  width: 100%;
+}
+
+.answer-textarea {
+  width: 100%;
+  min-height: 150px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .answer-textarea {
+    min-height: 120px;
+  }
+}
+
