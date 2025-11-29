@@ -153,3 +153,28 @@ async def next_question(invite_code: str, db: Session = Depends(get_db)):
     
     return {"message": "Moved to next question", "current_question_order": next_question.order}
 
+
+@router.post("/finish", status_code=200)
+async def finish_quiz(invite_code: str, db: Session = Depends(get_db)):
+    """Finish the quiz (host only)."""
+    quiz = quiz_service.get_quiz_by_invite_code(db, invite_code)
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    
+    if quiz.status != QuizStatus.IN_PROGRESS:
+        raise HTTPException(status_code=400, detail="Quiz must be in progress to finish")
+    
+    # Update quiz status to completed
+    quiz.status = QuizStatus.COMPLETED
+    db.commit()
+    db.refresh(quiz)
+    logger.info(f"Quiz {invite_code} finished: status={quiz.status}")
+    
+    # Broadcast quiz completed event
+    try:
+        await handlers.broadcast_quiz_completed(invite_code)
+    except Exception as e:
+        logger.error(f"Error broadcasting quiz completed: {e}")
+    
+    return {"message": "Quiz finished"}
+

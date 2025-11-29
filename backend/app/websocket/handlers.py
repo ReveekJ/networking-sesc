@@ -49,3 +49,11 @@ async def broadcast_answer_submitted(invite_code: str, participant_id: str):
         "message": "Answer submitted"
     }, invite_code)
 
+
+async def broadcast_quiz_completed(invite_code: str):
+    """Broadcast quiz completed event."""
+    await manager.broadcast_to_quiz({
+        "type": "quiz_completed",
+        "message": "Quiz has been completed"
+    }, invite_code)
+

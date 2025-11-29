@@ -4,6 +4,7 @@ from app.routers import quiz, team, host, answer, statistics
 from app.websocket import handlers
 from app.database import engine, Base
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +22,20 @@ def create_tables():
         pass
 
 # CORS middleware
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+allowed_origins = [
+    frontend_url,
+    "http://frontend:3000",  # Docker internal network
+]
+
+# Allow additional origins from environment variable (comma-separated)
+additional_origins = os.getenv("ADDITIONAL_CORS_ORIGINS", "")
+if additional_origins:
+    allowed_origins.extend([origin.strip() for origin in additional_origins.split(",")])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://frontend:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
