@@ -14,8 +14,8 @@ check_certificates() {
 # Function to switch to SSL configuration
 switch_to_ssl() {
     echo "Switching to SSL configuration..."
-    # Remove all existing .conf files to avoid duplicates
-    rm -f /etc/nginx/conf.d/*.conf
+    # Remove only the active config file to avoid duplicates, keep template files
+    rm -f "$NGINX_CONFIG"
     # Copy SSL configuration
     cp "$SSL_CONFIG" "$NGINX_CONFIG"
     # Test configuration
@@ -29,8 +29,8 @@ switch_to_ssl() {
 # Function to use HTTP-only configuration
 use_http_only() {
     echo "Using HTTP-only configuration (no SSL certificates found)..."
-    # Remove all existing .conf files to avoid duplicates
-    rm -f /etc/nginx/conf.d/*.conf
+    # Remove only the active config file to avoid duplicates, keep template files
+    rm -f "$NGINX_CONFIG"
     # Copy HTTP-only configuration
     cp "$INIT_CONFIG" "$NGINX_CONFIG"
 }
