@@ -1,4 +1,27 @@
 services:
+  traefik:
+    image: traefik:v2.11
+    container_name: quiz_traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_certs:/letsencrypt
+    networks:
+      - traefik
+    restart: unless-stopped
+
   postgres:
     image: postgres:15-alpine
     container_name: quiz_postgres
@@ -15,6 +38,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - traefik
 
   backend:
     build:
@@ -27,11 +52,25 @@ services:
     environment:
       DATABASE_URL: postgresql://quiz_user:quiz_password@postgres:5432/quiz_db
       ENVIRONMENT: development
-      FRONTEND_URL: https://networking-sesc.ru
-      ADDITIONAL_CORS_ORIGINS: https://networking-sesc.ru,https://www.networking-sesc.ru
+      FRONTEND_URL: https://${DOMAIN}
+      ADDITIONAL_CORS_ORIGINS: https://${DOMAIN},https://www.${DOMAIN}
     depends_on:
       postgres:
         condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+      - "traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.backend.middlewares=backend-stripprefix"
+      - "traefik.http.routers.backend-http.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-http.entrypoints=web"
+      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - traefik
 
   frontend:
     build:
@@ -42,42 +81,26 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      REACT_APP_API_URL: https://networking-sesc.ru
+      REACT_APP_API_URL: https://${DOMAIN}
     depends_on:
       - backend
-
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    container_name: quiz_nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - certbot_www:/var/www/certbot:ro
-      - certbot_data:/etc/letsencrypt:ro
-    environment:
-      - CERTBOT_AUTO=${CERTBOT_AUTO:-0}
-      - CERTBOT_EMAIL=${CERTBOT_EMAIL:-admin@networking-sesc.ru}
-      - CERTBOT_STAGING=${CERTBOT_STAGING:-0}
-    depends_on:
-      - frontend
-      - backend
-    restart: unless-stopped
-
-  certbot:
-    image: certbot/certbot
-    container_name: quiz_certbot
-    volumes:
-      - certbot_www:/var/www/certbot
-      - certbot_data:/etc/letsencrypt
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path=/var/www/certbot --quiet; sleep 12h & wait $${!}; done;'"
-    depends_on:
-      - nginx
-    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.frontend.priority=1"
+      - "traefik.http.routers.frontend-http.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.frontend-http.entrypoints=web"
+      - "traefik.http.routers.frontend-http.middlewares=redirect-to-https"
+    networks:
+      - traefik
 
 volumes:
   postgres_data:
-  certbot_www:
-  certbot_data:
+  traefik_certs:
+
+networks:
+  traefik:
+    driver: bridge
