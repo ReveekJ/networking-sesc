@@ -17,18 +17,40 @@
 
 ### Запуск через Docker Compose
 
+#### Автоматический запуск с SSL (рекомендуется для production)
+
 1. Клонируйте репозиторий
-2. Создайте файл `.env` на основе `.env.example` (опционально)
-3. Запустите все сервисы:
+2. Настройте DNS записи для домена `networking-sesc.ru`
+3. Запустите с автоматической настройкой SSL:
+
+```bash
+CERTBOT_AUTO=1 CERTBOT_EMAIL=your-email@example.com ./start.sh --build
+```
+
+Или создайте `.env` файл:
+```bash
+CERTBOT_AUTO=1
+CERTBOT_EMAIL=your-email@example.com
+CERTBOT_STAGING=0  # Используйте 1 для тестирования
+```
+
+Затем:
+```bash
+./start.sh --build
+```
+
+#### Стандартный запуск (для разработки)
 
 ```bash
 docker-compose up --build
 ```
 
 Сервисы будут доступны:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
+- Frontend: http://localhost:3000 (или https://networking-sesc.ru с SSL)
+- Backend API: http://localhost:8000 (или https://networking-sesc.ru/api с SSL)
 - PostgreSQL: localhost:5432
+
+**Примечание**: Для production с SSL см. [README-SSL.md](README-SSL.md)
 
 ### Локальная разработка
 

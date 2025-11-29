@@ -55,9 +55,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - certbot_www:/var/www/certbot:ro
       - certbot_data:/etc/letsencrypt:ro
+    environment:
+      - CERTBOT_AUTO=${CERTBOT_AUTO:-0}
+      - CERTBOT_EMAIL=${CERTBOT_EMAIL:-admin@networking-sesc.ru}
+      - CERTBOT_STAGING=${CERTBOT_STAGING:-0}
     depends_on:
       - frontend
       - backend
