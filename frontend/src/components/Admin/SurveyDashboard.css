@@ -1,0 +1,27 @@
+.survey-dashboard {
+  margin-top: 20px;
+}
+
+.survey-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #007bff;
+  color: white;
+}
+
+.invite-code {
+  font-family: monospace;
+  font-size: 14px;
+  color: #666;
+}
+

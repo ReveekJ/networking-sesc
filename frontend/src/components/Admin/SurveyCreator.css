@@ -1,0 +1,24 @@
+.survey-creator {
+  margin-bottom: 30px;
+}
+
+.survey-info {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.link-container {
+  display: flex;
+  gap: 10px;
+}
+
+.link-container input {
+  flex: 1;
+}
+
+.invite-link {
+  margin-bottom: 20px;
+}
+

@@ -1,0 +1,67 @@
+.voting-stage {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.instruction {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.answers-list {
+  margin-bottom: 20px;
+}
+
+.answer-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.answer-option:hover {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+.answer-option.selected {
+  border-color: #007bff;
+  background-color: #e7f3ff;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.answer-content {
+  flex: 1;
+}
+
+.answer-text {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.answer-team {
+  font-size: 14px;
+  color: #666;
+}
+
+.selected-count {
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #007bff;
+}
+

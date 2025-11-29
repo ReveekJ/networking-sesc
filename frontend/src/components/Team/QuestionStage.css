@@ -1,0 +1,31 @@
+.question-stage {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.question-text {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.answers-section {
+  margin-bottom: 20px;
+}
+
+.answer-field {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.answer-field .input {
+  flex: 1;
+}
+
+.answer-field .button-remove {
+  flex-shrink: 0;
+}
+
