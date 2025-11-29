@@ -14,14 +14,24 @@ check_certificates() {
 # Function to switch to SSL configuration
 switch_to_ssl() {
     echo "Switching to SSL configuration..."
+    # Remove all existing .conf files to avoid duplicates
+    rm -f /etc/nginx/conf.d/*.conf
+    # Copy SSL configuration
     cp "$SSL_CONFIG" "$NGINX_CONFIG"
-    nginx -t && nginx -s reload
+    # Test configuration
+    if ! nginx -t; then
+        echo "ERROR: SSL configuration test failed!"
+        exit 1
+    fi
     echo "SSL configuration activated!"
 }
 
 # Function to use HTTP-only configuration
 use_http_only() {
     echo "Using HTTP-only configuration (no SSL certificates found)..."
+    # Remove all existing .conf files to avoid duplicates
+    rm -f /etc/nginx/conf.d/*.conf
+    # Copy HTTP-only configuration
     cp "$INIT_CONFIG" "$NGINX_CONFIG"
 }
 
@@ -29,15 +39,17 @@ use_http_only() {
 if check_certificates; then
     echo "SSL certificates found, using SSL configuration..."
     switch_to_ssl
+    # Execute main command (nginx will run in foreground)
+    exec "$@"
 else
     echo "No SSL certificates found, using HTTP-only configuration..."
     use_http_only
     
-    # Start nginx in background to allow certbot to work
-    nginx -g "daemon on;"
-    
-    # Wait a bit for nginx to start
-    sleep 2
+    # Test nginx configuration before starting
+    if ! nginx -t; then
+        echo "ERROR: Nginx configuration test failed!"
+        exit 1
+    fi
     
     # Note: Automatic certificate obtaining is handled by a separate init script
     # that runs after docker-compose up. This is because certbot runs in a separate container.
@@ -48,11 +60,7 @@ else
         echo "You can also obtain them manually: docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d networking-sesc.ru -d www.networking-sesc.ru"
     fi
     
-    # Switch to foreground mode
-    nginx -s quit
-    exec nginx -g "daemon off;"
+    # Execute main command (nginx will run in foreground)
+    exec "$@"
 fi
-
-# Execute main command
-exec "$@"
 
